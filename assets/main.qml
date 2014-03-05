@@ -3,11 +3,22 @@ import bb.cascades 1.2
 Page {
     // create object at root level to access from CPP
     property alias tempText: destLabel.text
-
+    property int x_coord : 30
+    property int y_coord : 30
+    property int v_gap : 150
+    
     Container {
+        layout: AbsoluteLayout {
+        }
+        
         Label {
+            layoutProperties: AbsoluteLayoutProperties {
+                positionX: x_coord
+                positionY: y_coord
+            }
+            
             id:header
-            text:"Unofficial UWL Shuttle App beta version"  
+            text:"Unofficial UWL Shuttle App (beta)"  
             textStyle.color: Color.DarkCyan
             textStyle.fontWeight: FontWeight.Bold
             textFit.maxFontSizeValue: 50.0
@@ -16,13 +27,23 @@ Page {
         }
         
         Label{
+            layoutProperties: AbsoluteLayoutProperties {
+                positionX: x_coord
+                positionY: y_coord + v_gap
+            }
+            
             id:destLabel
-            text:"Which way are you going?"
+            text:"Towards"
+            
         }
         
         DropDown {
+            layoutProperties: AbsoluteLayoutProperties {
+                positionX: x_coord + 250
+                positionY: y_coord + v_gap
+            }
             id:destMenu
-            preferredWidth: 500
+            preferredWidth: 400
             onSelectedIndexChanged: {
                 console.log("SelectedIndex was changed to " + selectedIndex);
             }
@@ -54,14 +75,23 @@ Page {
         }
         
         Label{
+            layoutProperties: AbsoluteLayoutProperties {
+                positionX: x_coord
+                positionY: y_coord + v_gap * 2
+            }
             id:locationLabel
-            text:"Where are you now?"
+            text:"From"
             visible: false
         }
         
         DropDown {
+            layoutProperties: AbsoluteLayoutProperties {
+                positionX: x_coord + 250
+                positionY: y_coord + v_gap * 2
+            }
+            
             id:destinationParagon
-            preferredWidth: 500
+            preferredWidth: 400
             visible:false
             Option {
                 text:"Ealing Broadway Station"
@@ -98,8 +128,12 @@ Page {
         }
         
         DropDown {
+            layoutProperties: AbsoluteLayoutProperties {
+                positionX: x_coord + 250
+                positionY: y_coord + v_gap * 2
+            }
             id:destinationEaling
-            preferredWidth: 500
+            preferredWidth: 400
             visible: false
             Option {
                 text:"Paragon"
@@ -132,6 +166,10 @@ Page {
         } 
         
         Label{
+            layoutProperties: AbsoluteLayoutProperties {
+                positionX: x_coord
+                positionY: y_coord + v_gap * 5
+            }
             id:nextBus
             text:app.status
         }
