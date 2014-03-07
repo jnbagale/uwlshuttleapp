@@ -30,7 +30,6 @@ public:
     virtual ~ApplicationUI() { }
 
     Q_PROPERTY(QString status READ status WRITE setStatus NOTIFY statusChanged);
-    Q_INVOKABLE   void callme();
     Q_INVOKABLE int lookup_next_bus(QString destination, QString location, int cur_hour, int cur_min);
     int check_next_bus(int first_bus, int first, int cur_hour, int cur_min, char *last);
 

@@ -1,0 +1,7 @@
+# Things to do
+
+1. Have 2 tabs for each route
+2. Then display all the stops 
+3. Display next 2 bus schedule in new page
+4. New tab for fovorite stops
+5. Add  new tab for version info and info about app
