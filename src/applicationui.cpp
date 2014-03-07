@@ -51,7 +51,7 @@ ApplicationUI::ApplicationUI(bb::cascades::Application *app) :
 	app->setScene(root);
 
 	// set status message of the button
-	this->setStatus(QString("Next bus information here"));
+	//this->setStatus(QString("Next bus information here"));
 
 	//set a value of a component in QML from CPP
 	//root->setProperty("tempText", "Hello World...");
@@ -67,11 +67,6 @@ void ApplicationUI::onSystemLanguageChanged()
 	if (m_pTranslator->load(file_name, "app/native/qm")) {
 		QCoreApplication::instance()->installTranslator(m_pTranslator);
 	}
-}
-
-void ApplicationUI::callme()
-{
-	cout<<"thanks for calling me"<<endl;
 }
 
 QString ApplicationUI::status()
@@ -239,7 +234,7 @@ int ApplicationUI :: check_next_bus(int first_bus, int first, int cur_hour, int 
 	cout << last_bus_hour << last_bus_min <<endl;
 
 	if(cur_hour < first_bus) {
-		sprintf(msg, "First bus arrives at %d:%d", first_bus, cur_min);
+		sprintf(msg, "First bus arrives at %d:%d", first_bus, first);
 		this->setStatus(QString(msg));
 	}
 	else if(cur_hour > last_bus_hour) {
@@ -247,7 +242,7 @@ int ApplicationUI :: check_next_bus(int first_bus, int first, int cur_hour, int 
 		this->setStatus(QString(msg));
 	}
 
-	else if(cur_hour == first_bus && cur_min < first) {
+	else if(cur_hour == first_bus && cur_min <= first) {
 		next = first - cur_min;
 		sprintf(msg, "Next bus arrives in %d minutes", next);
 		this->setStatus(QString(msg));
@@ -275,7 +270,10 @@ int ApplicationUI :: check_next_bus(int first_bus, int first, int cur_hour, int 
 		}
 		else if(diff > 45) {
 			next = 60 - diff;
+		} else if(diff <= -45) {
+			next = abs(diff) - 45;
 		}
+
 
 		sprintf(msg, "Next bus arrives in %d minutes", next);
 		this->setStatus(QString(msg));
