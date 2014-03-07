@@ -5,7 +5,7 @@ Page {
     property alias tempText: destLabel.text
     property int x_coord : 30
     property int y_coord : 30
-    property int v_gap : 150
+    property int v_gap : 200
     
     Container {
         layout: AbsoluteLayout {
@@ -29,7 +29,7 @@ Page {
         Label{
             layoutProperties: AbsoluteLayoutProperties {
                 positionX: x_coord
-                positionY: y_coord + v_gap
+                positionY: y_coord + v_gap - 50
             }
             
             id:destLabel
@@ -37,43 +37,43 @@ Page {
             
         }
         
-        DropDown {
+        RadioGroup {
             layoutProperties: AbsoluteLayoutProperties {
                 positionX: x_coord + 250
-                positionY: y_coord + v_gap
+                positionY: y_coord + v_gap - 80
             }
-            id:destMenu
+            id:destinationMenu
             preferredWidth: 400
             onSelectedIndexChanged: {
                 console.log("SelectedIndex was changed to " + selectedIndex);
+                }
+            Option{
+                text:"Paragon"
+                value: "ealing-paragon"
+                
+                onSelectedChanged: {
+                    if (selected == true) {
+                        locationLabel.visible = true
+                        destinationEaling.visible=false
+                        destinationParagon.visible=true
+                    }
+                }
             }
             
-          Option {
-              text:"Paragon"
-              value: "ealing-paragon"
-              
-              onSelectedChanged: {
-                  if (selected == true) {
-                  locationLabel.visible = true
-                  destinationEaling.visible=false
-                  destinationParagon.visible=true
-                  }
-              }
-          }
-          
-          Option {
-              text:"Ealing Broadway"
-              value:"paragon-ealing"
-              onSelectedChanged: {
-                  if (selected == true) {
-                      locationLabel.visible = true
-                      destinationParagon.visible=false
-                     destinationEaling.visible = true
-                  }
-              }
-          }
+            Option {
+                text:"Ealing Broadway"
+                value:"paragon-ealing"
+                onSelectedChanged: {
+                    if (selected == true) {
+                        locationLabel.visible = true
+                        destinationParagon.visible=false
+                        destinationEaling.visible = true
+                    }
+                }
+            } 
         }
         
+          
         Label{
             layoutProperties: AbsoluteLayoutProperties {
                 positionX: x_coord
@@ -121,8 +121,8 @@ Page {
                 var currentDate = new Date();  
                 var cur_hour = currentDate.getHours();
                 var cur_min = currentDate.getMinutes();
-                app.lookup_next_bus(destMenu.selectedValue, destinationParagon.selectedValue, cur_hour, cur_min);
-                console.log(destMenu.selectedValue, destinationParagon.selectedValue);
+                app.lookup_next_bus(destinationMenu.selectedValue, destinationParagon.selectedValue, cur_hour, cur_min);
+                console.log(destinationMenu.selectedValue, destinationParagon.selectedValue);
                 console.log(currentDate, cur_hour, cur_min);	
             }                        
         }
@@ -159,8 +159,8 @@ Page {
                 var currentDate = new Date();  
                 var cur_hour = currentDate.getHours();
                 var cur_min = currentDate.getMinutes();
-                app.lookup_next_bus(destMenu.selectedValue, destinationEaling.selectedValue, cur_hour, cur_min);
-                console.log(destMenu.selectedValue, destinationEaling.selectedValue);
+                app.lookup_next_bus(destinationMenu.selectedValue, destinationEaling.selectedValue, cur_hour, cur_min);
+                console.log(destinationMenu.selectedValue, destinationEaling.selectedValue);
                 console.log(currentDate, cur_hour, cur_min);
             }   
         } 
@@ -172,8 +172,26 @@ Page {
             }
             id:nextBus
             text:app.status
+            onTextChanged: {
+                var currentdate = new Date(); 
+                var datetime = "Last updated: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+                
+                updateTime.text = datetime;
+            }
         }
-
+        
+        Label{
+            layoutProperties: AbsoluteLayoutProperties {
+                positionX: x_coord
+                positionY: y_coord + v_gap * 5 + 50
+            }
+            id:updateTime
+        }
     }
 }
 
